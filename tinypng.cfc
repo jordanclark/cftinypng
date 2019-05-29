@@ -59,19 +59,19 @@ component {
 	}
 
 	function getImage(required string key, required string file, string resize="") {
-		var j = '{}';
+		var json = '{}';
 		if ( listFirst( arguments.resize, ";,x" ) == "scale-width" && listLen( arguments.resize, ";,x" ) == 2 ) {
-			j = '{"resize":{"method": "scale","width":#listGetAt( arguments.resize, 2, ';,x' )#}}';
+			json = '{"resize":{"method": "scale","width":#listGetAt( arguments.resize, 2, ';,x' )#}}';
 		} else if ( listFirst( arguments.resize, ";,x" ) == "scale-height" && listLen( arguments.resize, ";,x" ) == 2 ) {
-			j = '{"resize":{"method": "scale","height":#listGetAt( arguments.resize, 2, ';,x' )#}}';
+			json = '{"resize":{"method": "scale","height":#listGetAt( arguments.resize, 2, ';,x' )#}}';
 		} else if ( listLen( arguments.resize, ";,x" ) == 3 ) {
-			j = '{"resize":{"method": "#listGetAt( arguments.resize, 1, ';,x' )#","width":#listGetAt( arguments.resize, 2, ';,x' )#,"height":#listGetAt( arguments.resize, 3, ';,x' )#}}';
+			json = '{"resize":{"method": "#listGetAt( arguments.resize, 1, ';,x' )#","width":#listGetAt( arguments.resize, 2, ';,x' )#,"height":#listGetAt( arguments.resize, 3, ';,x' )#}}';
 		}
 		var out= this.apiRequest( 
 			path= "/output/#listLast( arguments.key, '/' )#"
 		,	verb= "GET"
 		,	saveFile= arguments.file
-		,	json= j
+		,	json= json
 		);
 		return out;
 	}
@@ -83,10 +83,11 @@ component {
 	,	required string secretAccessKey=this.s3SecretAccessKey
 	,	string region=this.s3Region
 	) {
+		var json = '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}'
 		var out= this.apiRequest( 
 			path= "/output/#listLast( arguments.key, '/' )#"
 		,	verb= "POST"
-		,	json= '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}'
+		,	json= json
 		);
 		return out;
 	}
@@ -148,21 +149,15 @@ component {
 			}
 		} else {
 			out.response = toString( http.fileContent );
-			this.debugLog( out.response );
+			// this.debugLog( out.response );
 		}
-		//  RESPONSE CODE ERRORS 
-		if ( !structKeyExists( http, "responseHeader" ) || !structKeyExists( http.responseHeader, "Status_Code" ) || http.responseHeader.Status_Code == "" ) {
-			out.statusCode = 500;
-		} else {
-			out.statusCode = http.responseHeader.Status_Code;
-		}
+		out.statusCode = http.responseHeader.Status_Code ?: 500;
 		this.debugLog( out.statusCode );
 		if ( left( out.statusCode, 1 ) == 4 || left( out.statusCode, 1 ) == 5 ) {
-			out.success = false;
 			out.error = "status code error: #out.statusCode#";
 		} else if ( out.response == "Connection Timeout" || out.response == "Connection Failure" ) {
 			out.error = out.response;
-		} else if ( listFind( "200,201", http.responseHeader.Status_Code ) ) {
+		} else if ( left( out.statusCode, 1 ) == 2 ) {
 			out.success = true;
 		}
 		//  parse response 
