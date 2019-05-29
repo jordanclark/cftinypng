@@ -1,0 +1,38 @@
+{
+    "name":"cftinypng",
+    "slug":"cftinypng",
+    "version":"0.5.0",
+    "author":"Jordan Clark <jordanclark@gmail.com>",
+    "keywords":[
+		"tinypng",
+		"image optimization",
+        "api",
+        "rest"
+    ],
+    "shortDescription":"API client for tinypng.com",
+    "type":"modules",
+    "location":"jordanclark/cftinypng#v0.5.0",
+    "repository":{
+        "URL":"https://github.com/jordanclark/cftinypng.git",
+        "type":"GIT"
+    },
+    "homepage":"https://github.com/jordanclark/cftinypng",
+    "bugs":"https://github.com/jordanclark/cftinypng/issues",
+    "license":[
+        {
+            "type":"Apache-2.0",
+            "URL":"https://github.com/jordanclark/cftinypng/blob/master/LICENSE"
+        }
+    ],
+    "private":false,
+    "ignore":[
+        "**/.*",
+        "/test/",
+        "/tests/"
+    ],
+    "scripts":{
+        "postVersion":"package set location='jordanclark/cftinypng#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push --follow-tags"
+    }
+}
