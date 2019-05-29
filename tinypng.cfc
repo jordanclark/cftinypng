@@ -6,19 +6,16 @@ component {
 	,	string s3AccessKeyId=""
 	,	string s3SecretAccessKey=""
 	,	string s3Region="us-west-1"
-	,	numeric timeout= 120
-	,	boolean debug= false
+	,	numeric httpTimeOut= 120
+	,	boolean debug= ( request.debug ?: false )
 	) {
 		this.apiKey = arguments.apiKey;
 		this.apiUrl = arguments.apiUrl;
 		this.s3AccessKeyId = arguments.s3AccessKeyId;
 		this.s3SecretAccessKey = arguments.s3SecretAccessKey;
 		this.s3Region = arguments.s3Region;
-		this.httpTimeOut = 120;
-		this.debug = arguments.debug
-		if ( structKeyExists( request, "debug" ) && request.debug == true ) {
-			this.debug = request.debug;
-		}
+		this.httpTimeOut = arguments.httpTimeOut;
+		this.debug = arguments.debug;
 		return this;
 	}
 
