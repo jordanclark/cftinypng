@@ -1,17 +1,17 @@
 {
     "name":"cftinypng",
     "slug":"cftinypng",
-    "version":"0.5.0",
+    "version":"0.5.1",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
-		"tinypng",
-		"image optimization",
+        "tinypng",
+        "image optimization",
         "api",
         "rest"
     ],
     "shortDescription":"API client for tinypng.com",
     "type":"modules",
-    "location":"jordanclark/cftinypng#v0.5.0",
+    "location":"jordanclark/cftinypng#v0.5.1",
     "repository":{
         "URL":"https://github.com/jordanclark/cftinypng.git",
         "type":"GIT"
