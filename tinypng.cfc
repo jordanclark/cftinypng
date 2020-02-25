@@ -152,7 +152,6 @@ component {
 			// this.debugLog( out.response );
 		}
 		out.statusCode = http.responseHeader.Status_Code ?: 500;
-		this.debugLog( out.statusCode );
 		if ( left( out.statusCode, 1 ) == 4 || left( out.statusCode, 1 ) == 5 ) {
 			out.error = "status code error: #out.statusCode#";
 		} else if ( out.response == "Connection Timeout" || out.response == "Connection Failure" ) {
@@ -171,6 +170,7 @@ component {
 		if ( len( out.error ) ) {
 			out.success = false;
 		}
+		this.debugLog( out.statusCode & " " & out.error );
 		return out;
 	}
 
