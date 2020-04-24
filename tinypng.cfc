@@ -7,8 +7,9 @@ component {
 	,	string s3SecretAccessKey=""
 	,	string s3Region="us-west-1"
 	,	numeric httpTimeOut= 120
-	,	boolean debug= ( request.debug ?: false )
+	,	boolean debug
 	) {
+		arguments.debug = ( arguments.debug ?: request.debug ?: false );
 		this.apiKey = arguments.apiKey;
 		this.apiUrl = arguments.apiUrl;
 		this.s3AccessKeyId = arguments.s3AccessKeyId;
@@ -28,7 +29,12 @@ component {
 				request.log( arguments.input );
 			}
 		} else if( this.debug ) {
-			cftrace( text=( isSimpleValue( arguments.input ) ? arguments.input : "" ), var=arguments.input, category="tinypng", type="information" );
+			var info= ( isSimpleValue( arguments.input ) ? arguments.input : serializeJson( arguments.input ) );
+			cftrace(
+				var= "info"
+			,	category= "tinypng"
+			,	type= "information"
+			);
 		}
 		return;
 	}
