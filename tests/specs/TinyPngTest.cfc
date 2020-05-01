@@ -15,20 +15,19 @@ component extends="testbox.system.BaseSpec" {
  	// All suites go in here
 	function run( testResults, testBox ){
 		describe("Basic tinypng operations", function(){
-			ENV = duplicate( server.system.environment ?: {} );
-			if( fileExists( "../secret.cfm" ) ) {
-				include "../secret.cfm";
-			}
-			ENV.TINYPNG_API = ENV.TINYPNG_API ?: "missing-api-key";
+			TINYPNG_API = server.system.environment.TINYPNG_API ?: "missing-api-key";
+			SECRET_SOURCE = server.system.environment.SECRET_SOURCE ?: "no-source";
+
+			request.testbox.console( "Secret Source: #SECRET_SOURCE#" );
+			expect( SECRET_SOURCE ?: "" ).toBe( "travis-secret" );
+			
 			beforeEach(function( currentSpec ) {
-				cfc = new tinypng( apiKey= ENV.TINYPNG_API, debug= true );
+				cfc = new tinypng( apiKey= TINYPNG_API, debug= true );
 			});
 			afterEach( function( currentSpec ) {
 				structDelete( variables, "cfc" );
 			});
-			
-			debug( ENV );
-			
+
 			// it("can shrink images by URL", function(){
 			// 	var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
 			// 	expect( result.success ).toBeTrue();

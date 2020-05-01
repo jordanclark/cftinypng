@@ -2,3 +2,4 @@ testbox/
 tests/results/*.properties
 server.json
 tests/secret.cfm
+.env
