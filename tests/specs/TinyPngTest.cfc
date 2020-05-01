@@ -2,6 +2,13 @@ component extends="testbox.system.BaseSpec" {
 
 	// executes before all suites
 	function beforeAll() {
+		// ensure struct exists to support acf2016
+		if( !structKeyExists( server, "system" ) ) {
+			server.system= {
+				environment= createObject( "java", "java.lang.System" ).getenv()
+			,	properties= createObject( "java", "java.lang.System" ).getProperties()
+			};
+		}
 		request.log= function( input ) {
 			debug( arguments.input );
 		};
@@ -15,10 +22,9 @@ component extends="testbox.system.BaseSpec" {
  	// All suites go in here
 	function run( testResults, testBox ){
 		describe("Basic tinypng operations", function(){
-			TINYPNG_API = server.system.environment.TINYPNG_API ?: "missing-api-key";
-			expect( TINYPNG_API ?: "" ).notToBe( "missing-api-key" );
-			
 			beforeEach(function( currentSpec ) {
+				TINYPNG_API = server.system.environment.TINYPNG_API ?: "missing-api-key";
+				expect( TINYPNG_API ?: "" ).notToBe( "missing-api-key" );
 				cfc = new tinypng( apiKey= TINYPNG_API, debug= true );
 			});
 			afterEach( function( currentSpec ) {
