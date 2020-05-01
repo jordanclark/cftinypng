@@ -7,8 +7,8 @@ env:
     - MODULE_ID=cftinypng
   matrix:
     - ENGINE=lucee@5
-    # - ENGINE=adobe@2016
-    # - ENGINE=adobe@2018
+    - ENGINE=adobe@2016
+    - ENGINE=adobe@2018
 
 branches:
   only:
@@ -25,7 +25,7 @@ install:
   # Install Commandbox
   - sudo apt-get update && sudo apt-get --assume-yes install rsync jq commandbox
   # Install CommandBox Supporting Librarires
-  - box install commandbox-cfconfig #,commandbox-dotenv
+  - box install commandbox-cfconfig
   # If using auto-publish, you will need to provide your API token with this line:
   # - box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN > /dev/null
   # install testbox and dependancies
@@ -38,9 +38,6 @@ script:
   # Replace version so builder can issue it
   # - box package set version=@build.version@+@build.number@
   # - box install
-  # - touch .env
-  # - printf "TINYPNG_API=${TINYPNG_API}\n" >> .env
-  # - printf "SECRET_SOURCE=${SECRET_SOURCE}\n" >> .env
   # run our matrix server
   # - box server start serverConfigFile="server-${ENGINE}.json"
   - box server start cfengine=$ENGINE port=8500 openbrowser=false
