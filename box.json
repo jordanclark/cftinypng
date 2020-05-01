@@ -34,5 +34,11 @@
         "postVersion":"package set location='jordanclark/cftinypng#v`package version`'",
         "onRelease":"publish",
         "postPublish":"!git push --follow-tags"
+    },
+    "devDependencies":{
+        "testbox":"^4.0.0+372"
+    },
+    "installPaths":{
+        "testbox":"testbox/"
     }
 }
