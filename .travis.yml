@@ -6,6 +6,8 @@ env:
   global:
     - MODULE_ID=cftinypng
   matrix:
+    - ENGINE=lucee@4.5
+    - ENGINE=lucee@5.3
     - ENGINE=lucee@5
     - ENGINE=adobe@2016
     - ENGINE=adobe@2018
