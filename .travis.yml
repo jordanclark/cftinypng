@@ -4,8 +4,8 @@ dist: trusty
 env:
   # Fill out these global variables for build process
   global:
-	- MODULE_ID=cftinypng
-	- secure: opUQ1b6yBshn+U+ZNkLmJV2hBTxNeeNbHXsSQsDE1elxpkZdUaUvc9v5nIRhoRUhtxS8btxNKViD8o/pGiycoZjtk4z/s4NMiVHsspS+8D6Oim7AGyvRnm0QPiwnbB2NoPmtYZCHjxopJIDaoybK9fGBQ1Bqs7dtF3feVM5DmSiN0kbEAPSntPw+ue86gqwPIZZpFAlhKnZUNWmLRh7WNxrEGPghGiQ1xV29YtHWrQD1+KFv1CPqGvDMt5DwBqNzi6Wl10WXgWVww7bUoRpatGyMLzEDRl52ZPIBANrqoseSE2Aesz4AZGHuZKC440Xk40CSrHhAZpWy9DeK3+fD/6jAgiZ0wouKyTnfnMiZVrZIehJT2cJRvcHfAte8nkPOVuoCBeaTgvtR9rUZkLiylYY6meT47KeAs7HbO9ja0xDQqp6ly2NjEsVY8JsIyQfpRZzapZ4dX5/Kci4TBYXT4CWcpm+gwVu8bpBWG2CAERZ3B3PtRvD8uKLDuBwMT/jOHRSA4a9vrK5RcnhNB7JoKoB/W5/rjF9T/dCaTe2wyfo2rrMM0t6BFQgLrv2SmCVzP6eOyIUgnjDaWnN+kuwb9MbgIgUagRp9qJMBGwBKXQAgf6XoK1JPAaFpOUKodGi4MoOxSnG8Uhx2ceJ9WPsxnuUUVxeYyMr0FInUxmtowcg=
+    - MODULE_ID=cftinypng
+    - secure: opUQ1b6yBshn+U+ZNkLmJV2hBTxNeeNbHXsSQsDE1elxpkZdUaUvc9v5nIRhoRUhtxS8btxNKViD8o/pGiycoZjtk4z/s4NMiVHsspS+8D6Oim7AGyvRnm0QPiwnbB2NoPmtYZCHjxopJIDaoybK9fGBQ1Bqs7dtF3feVM5DmSiN0kbEAPSntPw+ue86gqwPIZZpFAlhKnZUNWmLRh7WNxrEGPghGiQ1xV29YtHWrQD1+KFv1CPqGvDMt5DwBqNzi6Wl10WXgWVww7bUoRpatGyMLzEDRl52ZPIBANrqoseSE2Aesz4AZGHuZKC440Xk40CSrHhAZpWy9DeK3+fD/6jAgiZ0wouKyTnfnMiZVrZIehJT2cJRvcHfAte8nkPOVuoCBeaTgvtR9rUZkLiylYY6meT47KeAs7HbO9ja0xDQqp6ly2NjEsVY8JsIyQfpRZzapZ4dX5/Kci4TBYXT4CWcpm+gwVu8bpBWG2CAERZ3B3PtRvD8uKLDuBwMT/jOHRSA4a9vrK5RcnhNB7JoKoB/W5/rjF9T/dCaTe2wyfo2rrMM0t6BFQgLrv2SmCVzP6eOyIUgnjDaWnN+kuwb9MbgIgUagRp9qJMBGwBKXQAgf6XoK1JPAaFpOUKodGi4MoOxSnG8Uhx2ceJ9WPsxnuUUVxeYyMr0FInUxmtowcg=
   matrix:
     - ENGINE=lucee@5
     - ENGINE=adobe@2016
@@ -39,8 +39,8 @@ script:
   # Replace version so builder can issue it
   # - box package set version=@build.version@+@build.number@
   # - box install
-  - touch .env
-  - printf "TINYPNG_API=${TINYPNG_API}\n" >> .env
+  # - touch .env
+  # - printf "TINYPNG_API=${TINYPNG_API}\n" >> .env
   # run our matrix server
   # - box server start serverConfigFile="server-${ENGINE}.json"
   - box server start cfengine=$ENGINE port=8500 openbrowser=false

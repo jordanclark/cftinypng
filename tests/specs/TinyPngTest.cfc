@@ -1,4 +1,4 @@
-component extends="coldbox.system.testing.BaseTestCase" {
+component extends="testbox.system.BaseSpec" {
 
 	// executes before all suites
 	function beforeAll() {
@@ -15,15 +15,19 @@ component extends="coldbox.system.testing.BaseTestCase" {
  	// All suites go in here
 	function run( testResults, testBox ){
 		describe("Basic tinypng operations", function(){
+			ENV = duplicate( server.system.environment ?: {} );
+			if( fileExists( "../secret.cfm" ) ) {
+				include "../secret.cfm";
+			}
+			ENV.TINYPNG_API = ENV.TINYPNG_API ?: "missing-api-key";
 			beforeEach(function( currentSpec ) {
-				cfc = new tinypng( apiKey= "jgnrP2JvrVHSpJ1qfriO_vE4PHDkJA8F", debug= true );
+				cfc = new tinypng( apiKey= ENV.TINYPNG_API, debug= true );
 			});
 			afterEach( function( currentSpec ) {
 				structDelete( variables, "cfc" );
 			});
-			debug( cgi );
-			debug( getUtil() );
-			debug( server.system.environment );
+			
+			debug( ENV );
 			
 			// it("can shrink images by URL", function(){
 			// 	var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
