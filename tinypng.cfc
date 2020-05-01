@@ -21,7 +21,7 @@ component {
 	}
 
 	function debugLog(required input) {
-		if ( structKeyExists( request, "log" ) && isCustomFunction( request.log ) ) {
+		if ( isCustomFunction( request.log ?: 0 ) ) {
 			if ( isSimpleValue( arguments.input ) ) {
 				request.log( "tinypng: " & arguments.input );
 			} else {
@@ -39,16 +39,16 @@ component {
 		return;
 	}
 
-	function shrinkURL(required string url) {
+	struct function shrinkURL(required string url) {
 		var out= this.apiRequest(
 			path= "/shrink"
 		,	verb= "POST"
-		,	json= '{"source:{"url:"#arguments.url#"}}'
+		,	json= '{"source":{"url":"#arguments.url#"}}'
 		);
 		return out;
 	}
 
-	function shrinkImage(required image) {
+	struct function shrinkImage(required image) {
 		var f = 0;
 		if ( isBinary( arguments.image ) ) {
 			f = arguments.image;
@@ -64,7 +64,7 @@ component {
 		return out;
 	}
 
-	function getImage(required string key, required string file, string resize="") {
+	struct function getImage(required string key, required string file, string resize="") {
 		var json = '{}';
 		if ( listFirst( arguments.resize, ";,x" ) == "scale-width" && listLen( arguments.resize, ";,x" ) == 2 ) {
 			json = '{"resize":{"method": "scale","width":#listGetAt( arguments.resize, 2, ';,x' )#}}';
@@ -82,14 +82,14 @@ component {
 		return out;
 	}
 
-	function s3transfer(
+	struct function s3transfer(
 		required string key
 	,	required string path
 	,	required string accessKeyId=this.s3AccessKeyId
 	,	required string secretAccessKey=this.s3SecretAccessKey
 	,	string region=this.s3Region
 	) {
-		var json = '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}'
+		var json = '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}';
 		var out= this.apiRequest( 
 			path= "/output/#listLast( arguments.key, '/' )#"
 		,	verb= "POST"
