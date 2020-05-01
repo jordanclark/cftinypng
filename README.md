@@ -8,8 +8,8 @@
 ```
 [![Build Status](https://travis-ci.com/jordanclark/cftinypng.svg?branch=master)](https://travis-ci.com/jordanclark/cftinypng)
 [![testbox](https://img.shields.io/badge/tested%20with-textbox-brightgreen)](https://www.ortussolutions.com/products/testbox)
-![Lucee 4.5](https://img.shields.io/badge/lucee-4.5-blue)
 ![Lucee 5.3](https://img.shields.io/badge/lucee-5.3-blue)
+![Lucee 4.5](https://img.shields.io/badge/lucee-4.5-blue)
 ![Adobe ColdFusion 2018](https://img.shields.io/badge/coldfusion-2018-blue)
 ![Adobe ColdFusion 2016](https://img.shields.io/badge/coldfusion-2016-blue)
 [![License](https://img.shields.io/badge/License-Apache2-brightgreen)](https://forgebox.io/view/cftinypng)
