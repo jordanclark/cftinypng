@@ -36,7 +36,6 @@ component extends="testbox.system.BaseSpec" {
 				var result= cfc.shrinkImage( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" );
 				expect( result.success ).toBeTrue();
 				expect( result.response.input.type ?: "" ).toBe( "image/png" );
-				expect( result.response.input.size ?: 0 ).toBe( "26060", "original file size" );
 				expect( result.response.output.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
 				debug( result );
@@ -45,7 +44,6 @@ component extends="testbox.system.BaseSpec" {
 				var result= cfc.shrinkImage( fileReadBinary( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" ) );
 				expect( result.success ).toBeTrue();
 				expect( result.response.input.type ?: "" ).toBe( "image/png" );
-				expect( result.response.input.size ?: 0 ).toBe( "19603", "original file size" );
 				expect( result.response.output.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
 				debug( result );

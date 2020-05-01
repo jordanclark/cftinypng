@@ -20,6 +20,7 @@ Run the following from commandbox:
 
 ## Run Tests
 [![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/tested-with-testbox.svg)](https://cfmlbadges.monkehworks.com)
+
 Install testbox
 ```
 box install
@@ -35,7 +36,9 @@ https://tinypng.com/developers
 
 ## Compatibility
 [![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-lucee-5.svg)](https://cfmlbadges.monkehworks.com)
+
 [![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-coldfusion-2018.svg)](https://cfmlbadges.monkehworks.com)
+
 [![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-coldfusion-2016.svg)](https://cfmlbadges.monkehworks.com)
 
 ## License
