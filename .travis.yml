@@ -5,12 +5,10 @@ env:
   # Fill out these global variables for build process
   global:
     - MODULE_ID=cftinypng
-    - secure: opUQ1b6yBshn+U+ZNkLmJV2hBTxNeeNbHXsSQsDE1elxpkZdUaUvc9v5nIRhoRUhtxS8btxNKViD8o/pGiycoZjtk4z/s4NMiVHsspS+8D6Oim7AGyvRnm0QPiwnbB2NoPmtYZCHjxopJIDaoybK9fGBQ1Bqs7dtF3feVM5DmSiN0kbEAPSntPw+ue86gqwPIZZpFAlhKnZUNWmLRh7WNxrEGPghGiQ1xV29YtHWrQD1+KFv1CPqGvDMt5DwBqNzi6Wl10WXgWVww7bUoRpatGyMLzEDRl52ZPIBANrqoseSE2Aesz4AZGHuZKC440Xk40CSrHhAZpWy9DeK3+fD/6jAgiZ0wouKyTnfnMiZVrZIehJT2cJRvcHfAte8nkPOVuoCBeaTgvtR9rUZkLiylYY6meT47KeAs7HbO9ja0xDQqp6ly2NjEsVY8JsIyQfpRZzapZ4dX5/Kci4TBYXT4CWcpm+gwVu8bpBWG2CAERZ3B3PtRvD8uKLDuBwMT/jOHRSA4a9vrK5RcnhNB7JoKoB/W5/rjF9T/dCaTe2wyfo2rrMM0t6BFQgLrv2SmCVzP6eOyIUgnjDaWnN+kuwb9MbgIgUagRp9qJMBGwBKXQAgf6XoK1JPAaFpOUKodGi4MoOxSnG8Uhx2ceJ9WPsxnuUUVxeYyMr0FInUxmtowcg=
-    - secure: MbZ0FwPcQN1IHanKehgq7v99ozn7vwx5FbRDA3MUEUEBAQhRlKsCIoPeLY1mV2AGZEwjbouOrtva8CTtEElKgEvlG1VKXYj6UbOxuDBOArgEEI8jLWogPE3AiQ2epRW2MaUJ9C7NSGQvRA7bgo+7XmSf9DrRF8tRV5BDaLB/sP058mSDie7i6LWzHAmattyHNNk50mctk8wR1m8v50sx3LDSMB9qfRJgdIgHpn+kD4bRYZpwXzqW59Rk9KMnGdgYDkPKTeC3A/GBSPd91ikP+PkAl8uqD88mWCOA0KVDvlllEmpjxHDHwGDng4CXHrmjia1NHOwv9tf7xu+ZcrN6bUmeMT59yvQJuYyB6UjsyKy8qLrBlB1C1UBRYmAeH1DJFMBITCdYvMOMdAxVljycxOMp62nEbUDjv+wQ99dZGFWpZwcyFZyJABlbyWxQRM7cbwaLWf6cBaz7jtxAGk8AvIw1GtpOIe83VLiE975axY2Tm83KiS/PiuO0kB+cB4KfwK4aRVrXK2XerWl2zrkUzLKNTLcPpTqbRdJVysCQjnEhVzyGRFgQUsfVbhTxV1oUC0UHTBFNakjXGiXGH32SBZjwEOKFYh4lHMe2PdYRQwElXEi0pWuHZtzldLOj7pnVfVsCgOi0mzbz8tlQcSC2fgEmY6R+tSu/L6wndypxVis=
   matrix:
     - ENGINE=lucee@5
-    - ENGINE=adobe@2016
-    - ENGINE=adobe@2018
+    # - ENGINE=adobe@2016
+    # - ENGINE=adobe@2018
 
 branches:
   only:
@@ -27,7 +25,7 @@ install:
   # Install Commandbox
   - sudo apt-get update && sudo apt-get --assume-yes install rsync jq commandbox
   # Install CommandBox Supporting Librarires
-  - box install commandbox-cfconfig,commandbox-dotenv
+  - box install commandbox-cfconfig #,commandbox-dotenv
   # If using auto-publish, you will need to provide your API token with this line:
   # - box config set endpoints.forgebox.APIToken=$FORGEBOX_API_TOKEN > /dev/null
   # install testbox and dependancies
@@ -42,6 +40,7 @@ script:
   # - box install
   # - touch .env
   # - printf "TINYPNG_API=${TINYPNG_API}\n" >> .env
+  # - printf "SECRET_SOURCE=${SECRET_SOURCE}\n" >> .env
   # run our matrix server
   # - box server start serverConfigFile="server-${ENGINE}.json"
   - box server start cfengine=$ENGINE port=8500 openbrowser=false

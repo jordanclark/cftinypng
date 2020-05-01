@@ -16,10 +16,7 @@ component extends="testbox.system.BaseSpec" {
 	function run( testResults, testBox ){
 		describe("Basic tinypng operations", function(){
 			TINYPNG_API = server.system.environment.TINYPNG_API ?: "missing-api-key";
-			SECRET_SOURCE = server.system.environment.SECRET_SOURCE ?: "no-source";
-
-			request.testbox.console( "Secret Source: #SECRET_SOURCE#" );
-			expect( SECRET_SOURCE ?: "" ).toBe( "travis-secret" );
+			expect( TINYPNG_API ?: "" ).notToBe( "missing-api-key" );
 			
 			beforeEach(function( currentSpec ) {
 				cfc = new tinypng( apiKey= TINYPNG_API, debug= true );
