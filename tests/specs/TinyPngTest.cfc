@@ -1,0 +1,55 @@
+component extends="testbox.system.BaseSpec" {
+
+	// executes before all suites
+	function beforeAll() {
+		request.log= function( input ) {
+			debug( arguments.input );
+		};
+	}
+
+    // executes after all suites
+    function afterAll() {
+		structDelete( request, "log" );
+	}
+
+ 	// All suites go in here
+	function run( testResults, testBox ){
+		describe("Basic tinypng operations", function(){
+			TINYPNG_API = server.system.environment.TINYPNG_API ?: "missing-api-key";
+			expect( TINYPNG_API ?: "" ).notToBe( "missing-api-key" );
+			
+			beforeEach(function( currentSpec ) {
+				cfc = new tinypng( apiKey= TINYPNG_API, debug= true );
+			});
+			afterEach( function( currentSpec ) {
+				structDelete( variables, "cfc" );
+			});
+
+			it("can shrink images by URL", function(){
+				var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
+				expect( result.success ).toBeTrue();
+				expect( result.response.input.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.type ?: "" ).toBe( "image/png" );
+				debug( result );
+			});
+			it("can shrink images by filename", function(){
+				var result= cfc.shrinkImage( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" );
+				expect( result.success ).toBeTrue();
+				expect( result.response.input.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
+				debug( result );
+			});
+			it("can shrink binary images", function(){
+				var result= cfc.shrinkImage( fileReadBinary( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" ) );
+				expect( result.success ).toBeTrue();
+				expect( result.response.input.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
+				debug( result );
+			});
+		});
+   
+   }
+
+}
