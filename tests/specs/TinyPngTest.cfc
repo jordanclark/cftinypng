@@ -29,6 +29,7 @@ component extends="testbox.system.BaseSpec" {
 			});
 			afterEach( function( currentSpec ) {
 				structDelete( variables, "cfc" );
+				structDelete( variables, "TINYPNG_API" );
 			});
 
 			it("can shrink images by filename", function(){
@@ -66,11 +67,14 @@ component extends="testbox.system.BaseSpec" {
 			it("can download compressed images", function(){
 				var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
 				expect( result.success ).toBeTrue();
-				var download= cfc.getImage( result.image, "./download.png" );
+				var download= cfc.getImage( result.image, expandPath( "./download.png" ) );
 				expect( download.success ).toBeTrue();
 				expect( download.width ?: 0 ).toBe( 212 );
 				expect( download.height ?: 0 ).toBe( 400 );
 				debug( download );
+				try {
+					fileDelete( expandPath( "./download.png" ) );
+				} catch( Any e) {}
 			});
 		});
    
