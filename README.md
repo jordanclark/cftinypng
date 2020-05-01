@@ -7,6 +7,10 @@
                             |___/ |_|            |___/ 
 ```
 [![Build Status](https://travis-ci.com/jordanclark/cftinypng.svg?branch=master)](https://travis-ci.com/jordanclark/cftinypng)
+[![testbox](https://img.shields.io/badge/tested%20with-textbox-brightgreen)](https://www.ortussolutions.com/products/testbox)
+![Lucee 5](https://img.shields.io/badge/lucee-5-blue)
+![Adobe ColdFusion 2018](https://img.shields.io/badge/coldfusion-2018-blue)
+![Adobe ColdFusion 2016](https://img.shields.io/badge/coldfusion-2016-blue)
 [![License](https://img.shields.io/badge/License-Apache2-brightgreen)](https://forgebox.io/view/cftinypng)
 
 # cftinypng
@@ -19,8 +23,6 @@ Run the following from commandbox:
 `box install cftinypng`
 
 ## Run Tests
-[![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/tested-with-testbox.svg)](https://cfmlbadges.monkehworks.com)
-
 Install testbox
 ```
 box install
@@ -33,13 +35,6 @@ box testbox run
 
 ## API documentation
 https://tinypng.com/developers
-
-## Compatibility
-[![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-lucee-5.svg)](https://cfmlbadges.monkehworks.com)
-
-[![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-coldfusion-2018.svg)](https://cfmlbadges.monkehworks.com)
-
-[![cfmlbadges](https://cfmlbadges.monkehworks.com/images/badges/compatibility-coldfusion-2016.svg)](https://cfmlbadges.monkehworks.com)
 
 ## License
 Apache License, Version 2.0.
