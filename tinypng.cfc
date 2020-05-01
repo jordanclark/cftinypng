@@ -82,7 +82,7 @@ component {
 		}
 		var out= this.apiRequest( 
 			path= "/output/#listLast( arguments.urlOrKey, '/' )#"
-		,	verb= "GET"
+		,	verb= "POST"
 		,	saveFile= arguments.file
 		,	json= json
 		);
