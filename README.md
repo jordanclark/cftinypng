@@ -17,11 +17,26 @@
 # cftinypng
 TinyPNG.com ColdFusion Rest API Client
 
-Super easy way to compress PNG & JPG images with this remote web service, free accounts include 500 operations per month.
+Super easy way to compress PNG & JPG images with this remote web service, free accounts include 500 operations per month. Signup at
+https://tinypng.com/developers
 
 ## To Install
 Run the following from commandbox:
 `box install cftinypng`
+
+## Example
+```
+tiny = new cftinypng.tinypng( apiKey= "..." );
+result= tiny.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
+if( result.success ) {
+	writeOutput( '<img src="#result.image#" width="#result.width#" height="#result.height#" />' );
+}
+// or
+result= tiny.shrinkImage( "image.jpg" );
+if( result.success ) {
+	tiny.getImage( result.image, "./output.jpg" );
+}
+```
 
 ## Run Tests
 Install testbox
@@ -35,7 +50,7 @@ box testbox run
 * 2019-05-28 Open source release
 
 ## API documentation
-https://tinypng.com/developers
+https://tinypng.com/developers/reference
 
 ## License
 Apache License, Version 2.0.

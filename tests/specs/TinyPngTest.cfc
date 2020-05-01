@@ -31,20 +31,16 @@ component extends="testbox.system.BaseSpec" {
 				structDelete( variables, "cfc" );
 			});
 
-			it("can shrink images by URL", function(){
-				var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
-				expect( result.success ).toBeTrue();
-				expect( result.response.input.type ?: "" ).toBe( "image/png" );
-				expect( result.response.output.type ?: "" ).toBe( "image/png" );
-				debug( result );
-			});
 			it("can shrink images by filename", function(){
 				var result= cfc.shrinkImage( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" );
 				expect( result.success ).toBeTrue();
 				expect( result.response.input.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
-				debug( result );
+				expect( result.image ?: "" ).toMatch( "^https://api.tinify.com/output/" );
+				expect( result.width ?: 0 ).toBe( 212 );
+				expect( result.height ?: 0 ).toBe( 400 );
+				expect( result.compressionCount ?: 0 ).toBeGTE( 1, "compression count" );
 			});
 			it("can shrink binary images", function(){
 				var result= cfc.shrinkImage( fileReadBinary( getDirectoryFromPath( getCurrentTemplatePath() ) & "caricature.png" ) );
@@ -52,7 +48,29 @@ component extends="testbox.system.BaseSpec" {
 				expect( result.response.input.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.type ?: "" ).toBe( "image/png" );
 				expect( result.response.output.size ?: 0 ).toBeLTE( "18000", "compressed file size" );
-				debug( result );
+				expect( result.image ?: "" ).toMatch( "^https://api.tinify.com/output/" );
+				expect( result.width ?: 0 ).toBe( 212 );
+				expect( result.height ?: 0 ).toBe( 400 );
+				expect( result.compressionCount ?: 0 ).toBeGTE( 1, "compression count" );
+			});
+			it("can shrink images by URL", function(){
+				var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
+				expect( result.success ).toBeTrue();
+				expect( result.response.input.type ?: "" ).toBe( "image/png" );
+				expect( result.response.output.type ?: "" ).toBe( "image/png" );
+				expect( result.image ?: "" ).toMatch( "^https://api.tinify.com/output/" );
+				expect( result.width ?: 0 ).toBe( 212 );
+				expect( result.height ?: 0 ).toBe( 400 );
+				expect( result.compressionCount ?: 0 ).toBeGTE( 1, "compression count" );
+			});
+			it("can download compressed images", function(){
+				var result= cfc.shrinkUrl( "https://www.imagineer.ca/images/caricature.png" );
+				expect( result.success ).toBeTrue();
+				var download= cfc.getImage( result.image, "./download.png" );
+				expect( download.success ).toBeTrue();
+				expect( download.width ?: 0 ).toBe( 212 );
+				expect( download.height ?: 0 ).toBe( 400 );
+				debug( download );
 			});
 		});
    
