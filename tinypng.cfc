@@ -113,7 +113,7 @@ component {
 		,	requestUrl = this.apiUrl & arguments.path
 		};
 		if ( isStruct( arguments.json ) ) {
-			out.json = serializeJSON( arguments.json );
+			out.json = serializeJSON( arguments.json, false, false );
 			out.json = reReplace( out.json, "[#chr(1)#-#chr(7)#|#chr(11)#|#chr(14)#-#chr(31)#]", "", "all" );
 		} else if ( isSimpleValue( arguments.json ) && len( arguments.json ) ) {
 			out.json = arguments.json;
