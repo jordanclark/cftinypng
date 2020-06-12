@@ -1,7 +1,7 @@
 {
     "name":"cftinypng",
     "slug":"cftinypng",
-    "version":"0.5.7",
+    "version":"0.5.8",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
         "tinypng",
@@ -11,7 +11,7 @@
     ],
     "shortDescription":"API client for tinypng.com",
     "type":"modules",
-    "location":"jordanclark/cftinypng#v0.5.7",
+    "location":"jordanclark/cftinypng#v0.5.8",
     "repository":{
         "URL":"https://github.com/jordanclark/cftinypng.git",
         "type":"GIT"
