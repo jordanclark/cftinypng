@@ -1,7 +1,7 @@
 {
     "name":"cftinypng",
     "slug":"cftinypng",
-    "version":"0.5.8",
+    "version":"0.8.0",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
         "tinypng",
@@ -11,7 +11,7 @@
     ],
     "shortDescription":"API client for tinypng.com",
     "type":"modules",
-    "location":"jordanclark/cftinypng#v0.5.8",
+    "location":"jordanclark/cftinypng#v0.8.0",
     "repository":{
         "URL":"https://github.com/jordanclark/cftinypng.git",
         "type":"GIT"
@@ -34,5 +34,11 @@
         "postVersion":"package set location='jordanclark/cftinypng#v`package version`'",
         "onRelease":"publish",
         "postPublish":"!git push --follow-tags"
+    },
+    "devDependencies":{
+        "testbox":"^4.0.0+372"
+    },
+    "installPaths":{
+        "testbox":"testbox/"
     }
 }

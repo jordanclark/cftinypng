@@ -21,7 +21,7 @@ component {
 	}
 
 	function debugLog(required input) {
-		if ( structKeyExists( request, "log" ) && isCustomFunction( request.log ) ) {
+		if ( isCustomFunction( request.log ?: 0 ) ) {
 			if ( isSimpleValue( arguments.input ) ) {
 				request.log( "tinypng: " & arguments.input );
 			} else {
@@ -39,16 +39,16 @@ component {
 		return;
 	}
 
-	function shrinkURL(required string url) {
+	struct function shrinkURL(required string url) {
 		var out= this.apiRequest(
 			path= "/shrink"
 		,	verb= "POST"
-		,	json= '{"source:{"url:"#arguments.url#"}}'
+		,	json= '{"source":{"url":"#arguments.url#"}}'
 		);
 		return out;
 	}
 
-	function shrinkImage(required image) {
+	struct function shrinkImage(required image) {
 		var f = 0;
 		if ( isBinary( arguments.image ) ) {
 			f = arguments.image;
@@ -64,32 +64,39 @@ component {
 		return out;
 	}
 
-	function getImage(required string key, required string file, string resize="") {
+	/**
+	 * getImage
+	 *
+	 * @urlOrKey full url or last part of url
+	 * @file local filename to save as
+	 * @resize resize operations: scale-width:100 or scale-height:200 or fit:100x200 or cover:100x200 or thumb:100x200
+	 */
+	struct function getImage(required string urlOrKey, required string file, string resize="") {
 		var json = '{}';
-		if ( listFirst( arguments.resize, ";,x" ) == "scale-width" && listLen( arguments.resize, ";,x" ) == 2 ) {
-			json = '{"resize":{"method": "scale","width":#listGetAt( arguments.resize, 2, ';,x' )#}}';
-		} else if ( listFirst( arguments.resize, ";,x" ) == "scale-height" && listLen( arguments.resize, ";,x" ) == 2 ) {
-			json = '{"resize":{"method": "scale","height":#listGetAt( arguments.resize, 2, ';,x' )#}}';
+		if ( listFirst( arguments.resize, ":," ) == "scale-width" && listLen( arguments.resize, ":," ) == 2 ) {
+			json = '{"resize":{"method": "scale","width":#listGetAt( arguments.resize, 2, ':,' )#}}';
+		} else if ( listFirst( arguments.resize, ":," ) == "scale-height" && listLen( arguments.resize, ":," ) == 2 ) {
+			json = '{"resize":{"method": "scale","height":#listGetAt( arguments.resize, 2, ':,' )#}}';
 		} else if ( listLen( arguments.resize, ";,x" ) == 3 ) {
-			json = '{"resize":{"method": "#listGetAt( arguments.resize, 1, ';,x' )#","width":#listGetAt( arguments.resize, 2, ';,x' )#,"height":#listGetAt( arguments.resize, 3, ';,x' )#}}';
+			json = '{"resize":{"method": "#listGetAt( arguments.resize, 1, ':,x' )#","width":#listGetAt( arguments.resize, 2, ':,x' )#,"height":#listGetAt( arguments.resize, 3, ':,x' )#}}';
 		}
 		var out= this.apiRequest( 
-			path= "/output/#listLast( arguments.key, '/' )#"
-		,	verb= "GET"
+			path= "/output/#listLast( arguments.urlOrKey, '/' )#"
+		,	verb= "POST"
 		,	saveFile= arguments.file
 		,	json= json
 		);
 		return out;
 	}
 
-	function s3transfer(
+	struct function s3transfer(
 		required string key
 	,	required string path
 	,	required string accessKeyId=this.s3AccessKeyId
 	,	required string secretAccessKey=this.s3SecretAccessKey
 	,	string region=this.s3Region
 	) {
-		var json = '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}'
+		var json = '{"store":{"service":"s3","aws_access_key_id":"#arguments.accessKeyId#","aws_secret_access_key":"#arguments.secretAccessKey#","region":"#arguments.region#","path":"#arguments.path#"}}';
 		var out= this.apiRequest( 
 			path= "/output/#listLast( arguments.key, '/' )#"
 		,	verb= "POST"
@@ -136,6 +143,9 @@ component {
 					cfhttpparam( type="body", value=arguments.sendFile );
 				}
 			}
+			if( this.debug ) {
+				out.http= http;
+			}
 		}
 		
 		if ( len( arguments.saveFile ) ) {
@@ -145,14 +155,8 @@ component {
 			} else {
 				fileWrite( arguments.saveFile, http.fileContent.toByteArray() );
 			}
-			out.width = 0;
-			out.height = 0;
-			if ( structKeyExists( http.responseHeader, "Image-Width" ) ) {
-				out.width = http.responseHeader[ "Image-Width" ];
-			}
-			if ( structKeyExists( http.responseHeader, "Image-Height" ) ) {
-				out.height = http.responseHeader[ "Image-Height" ];
-			}
+			out.width = http.responseHeader[ "Image-Width" ] ?: 0;
+			out.height = http.responseHeader[ "Image-Height" ] ?: 0;
 		} else {
 			out.response = toString( http.fileContent );
 			// this.debugLog( out.response );
@@ -164,11 +168,18 @@ component {
 			out.error = out.response;
 		} else if ( left( out.statusCode, 1 ) == 2 ) {
 			out.success = true;
+			out.image = http.responseHeader[ "Location" ] ?: "";
+			out.type = http.responseHeader[ "Content-Type" ] ?: "";
+			out.compressionCount= http.responseHeader[ "Compression-Count" ] ?: -1;
 		}
 		// parse response 
 		if ( len( out.response ) && left( out.response, 1 ) == "{" ) {
 			try {
 				out.response = deserializeJSON( out.response );
+				out.width = out.response.output.width ?: 0;
+				out.height = out.response.output.height ?: 0;
+				out.image = out.response.output.url ?: "";
+				out.type = out.response.output.type ?: "";
 			} catch (any cfcatch) {
 				out.error= "JSON Error: " & (cfcatch.message?:"No catch message") & " " & (cfcatch.detail?:"No catch detail");
 			}
